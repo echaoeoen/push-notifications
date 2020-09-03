@@ -4,26 +4,27 @@ import (
 	"strings"
 
 	"github.com/ory/viper"
+	"github.com/ory/x/logrusx"
 	"github.com/ory/x/viperx"
-	"github.com/sirupsen/logrus"
 	jConfig "github.com/uber/jaeger-client-go/config"
 )
 
 type ViperProvider struct {
-	l               logrus.FieldLogger
+	l               *logrusx.Logger
 	ss              [][]byte
 	generatedSecret []byte
 	forcedHTTP      bool
 }
 
 const (
-	ViperKeyPublicURL        = "urls.public"
-	ViperKeyDSN              = "dsn"
-	ViperKeyHost             = "serve.host"
-	ViperKeyPort             = "serve.port"
-	ViperKeyGetCookieSecrets = "secrets.cookie"
-	ViperKeyService          = "service"
-	ViperFCMServerKey        = "fcm.server.key"
+	ViperKeyPublicURL                = "urls.public"
+	ViperKeyDSN                      = "dsn"
+	ViperKeyHost                     = "serve.host"
+	ViperKeyPort                     = "serve.port"
+	ViperKeyGetCookieSecrets         = "secrets.cookie"
+	ViperKeyService                  = "service"
+	ViperFCMServerKey                = "fcm.server.key"
+	ViperFetchNotificationSizePerReq = "fetch.notification.size.per.request"
 )
 
 func init() {
@@ -32,7 +33,7 @@ func init() {
 
 }
 
-func NewViperProvider(l logrus.FieldLogger, forcedHTTP bool) Provider {
+func NewViperProvider(l *logrusx.Logger, forcedHTTP bool) Provider {
 	return &ViperProvider{
 		l:          l,
 		forcedHTTP: forcedHTTP,
@@ -79,7 +80,7 @@ func (v *ViperProvider) Service() string {
 func (v *ViperProvider) ServeHTTPS() bool {
 	return !v.forcedHTTP
 }
-func (v *ViperProvider) Logger() logrus.FieldLogger {
+func (v *ViperProvider) Logger() *logrusx.Logger {
 	return v.l
 }
 
@@ -88,4 +89,8 @@ func (v *ViperProvider) AppName() string {
 }
 func (v *ViperProvider) FCMServerKey() string {
 	return viperx.GetString(v.l, ViperFCMServerKey, "", "FCM_SERVER_KEY")
+}
+func (v *ViperProvider) FetchNotificationSizePerReq() string {
+	return viperx.GetString(v.l, ViperFCMServerKey, "10", "FETCH_NOTIFICATION_SIZE_PER_REQUEST")
+
 }

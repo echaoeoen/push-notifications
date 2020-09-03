@@ -1,9 +1,8 @@
 package driver
 
 import (
-	"github.com/sirupsen/logrus"
-
 	"github.com/oeoen/push-notifications/driver/config"
+	"github.com/ory/x/logrusx"
 )
 
 type DefaultDriver struct {
@@ -11,14 +10,14 @@ type DefaultDriver struct {
 	r Registry
 }
 
-func NewDefaultDriver(l logrus.FieldLogger, forcedHTTP bool) Driver {
+func NewDefaultDriver(l *logrusx.Logger, forcedHTTP bool) Driver {
 
 	c := config.NewViperProvider(l, forcedHTTP)
 	var r Registry
 	var err error
 
 	if c.DSN() != "" {
-		// r, err = NewRegistrySqls(c)
+		r, err = NewRegistrySqls(c)
 	} else {
 		l.Fatal("no DSN")
 	}

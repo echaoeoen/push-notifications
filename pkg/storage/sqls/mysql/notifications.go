@@ -13,7 +13,6 @@ func (m *MYSQLManager) FetchNotification(ctx context.Context, filter ...[3]strin
 	ns := []*notification.Content{}
 	sp := startSpan(ctx, "fetch-notification", query)
 	defer finishSpan(sp)
-
 	r, err := m.DBService().Query(query, k...)
 	if err != nil {
 		return nil, errorp.FetchError(err.Error())
@@ -41,4 +40,42 @@ func (m *MYSQLManager) FetchNotification(ctx context.Context, filter ...[3]strin
 		return nil, errorp.NotFoundError("No notification data")
 	}
 	return ns, nil
+}
+
+func (m *MYSQLManager) SaveNotification(ctx context.Context, application, username string, content notification.Content) error {
+	query := queries.InsertNotification
+	stmt, err := m.Prepare(query)
+	if err != nil {
+		return err
+	}
+	_, err = stmt.Exec(
+		application,
+		username,
+		content.Title,
+		content.SubTitle,
+		content.Message,
+		content.Action,
+		content.Param,
+		content.Readed,
+	)
+	if err != nil {
+		return errorp.InsertError(err.Error())
+	}
+	return nil
+}
+func (m *MYSQLManager) ReadNotification(ctx context.Context, application, username, notificationID string) error {
+	query := queries.ReadNotification
+	stmt, err := m.Prepare(query)
+	if err != nil {
+		return err
+	}
+	_, err = stmt.Exec(
+		application,
+		username,
+		notificationID,
+	)
+	if err != nil {
+		return errorp.UpdateError(err.Error())
+	}
+	return nil
 }

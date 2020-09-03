@@ -1,0 +1,383 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "description": "The purpose of this application is to provide sending and storing notification data",
+    "title": "FCM Notifications REST API.",
+    "contact": {
+      "name": "echaoeoen",
+      "email": "andyepso@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/applications/{application}/users/{username}/notifications": {
+      "get": {
+        "description": "Get list notification of the users application",
+        "parameters": [
+          {
+            "name": "application",
+            "description": "Application name of detailed notification",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "username",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List coupon",
+            "$ref": "#/components/responses/Content"
+          }
+        }
+      },
+      "post": {
+        "description": "Sending and storing notification to users app",
+        "parameters": [
+          {
+            "name": "application",
+            "description": "Application name of detailed notification",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "username",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Content"
+        },
+        "responses": {
+          "200": {
+            "description": "List coupon",
+            "$ref": "#/components/responses/Content"
+          }
+        }
+      }
+    },
+    "/applications/{application}/users/{username}/fcm": {
+      "get": {
+        "description": "Get FCM info of the users application",
+        "parameters": [
+          {
+            "name": "application",
+            "description": "Application name of detailed notification",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "username",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List coupon",
+            "$ref": "#/components/responses/UserData"
+          }
+        }
+      },
+      "put": {
+        "description": "set FCM Token users app",
+        "parameters": [
+          {
+            "name": "application",
+            "description": "Application name of detailed notification",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "username",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/FCMToken"
+        },
+        "responses": {
+          "200": {
+            "description": "List coupon",
+            "$ref": "#/components/responses/Message"
+          }
+        }
+      }
+    },
+    "/applications/{application}/users/{username}/notifications/next/{last_id}": {
+      "get": {
+        "description": "Get list next notification of the users application",
+        "parameters": [
+          {
+            "name": "application",
+            "description": "Application name of detailed notification",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "username",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "last_id",
+            "in": "path",
+            "description": "Last notification IDs of sets before",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List coupon",
+            "$ref": "#/components/responses/Content"
+          }
+        }
+      }
+    },
+    "/applications/{application}/users/{username}/notifications/newest/{last_id}": {
+      "get": {
+        "description": "Get list newest notification after passed last_ids of the users application",
+        "parameters": [
+          {
+            "name": "application",
+            "description": "Application name of detailed notification",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "username",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "last_id",
+            "in": "path",
+            "description": "Last notification IDs of sets before",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List coupon",
+            "$ref": "#/components/responses/Content"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "UserData": {
+        "description": "User FCM Token",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "fcm_token": {
+                  "type": "string",
+                  "description": "Token that obtained from FCM libray in your app"
+                },
+                "application": {
+                  "type": "string",
+                  "description": "Your application name"
+                },
+                "username": {
+                  "type": "string",
+                  "description": "username that connected to the FCM Token"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Error": {
+        "description": "Error response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error_description": {
+                  "type": "string",
+                  "description": "Description of error"
+                },
+                "error_hint": {
+                  "type": "string",
+                  "description": "Hint of error"
+                },
+                "error_code": {
+                  "type": "string",
+                  "description": "Dode of error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Message": {
+        "description": "OK response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "Message of success action"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Content": {
+        "description": "Content",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "description": "Unique IDs of notification content"
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "Title of notification"
+                  },
+                  "subtitle": {
+                    "type": "string"
+                  },
+                  "message": {
+                    "type": "string",
+                    "description": "Message notification"
+                  },
+                  "action": {
+                    "type": "string",
+                    "description": "action for each notification"
+                  },
+                  "param": {
+                    "type": "string",
+                    "description": "notification param, should be url encode"
+                  },
+                  "readed": {
+                    "type": "boolean",
+                    "description": "Readed flag of notification"
+                  },
+                  "created": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Created datetime of notification"
+                  },
+                  "updated": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Updated datetime of notification"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "requestBodies": {
+      "FCMToken": {
+        "description": "FCM Token",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "fcm_token": {
+                  "type": "string",
+                  "description": "Token that obtained from FCM libray in your app"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Content": {
+        "description": "Content",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "description": "Title of notification"
+                },
+                "subtitle": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "Message notification"
+                },
+                "action": {
+                  "type": "string",
+                  "description": "action for each notification"
+                },
+                "param": {
+                  "type": "string",
+                  "description": "notification param, should be url encode"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -9,7 +9,7 @@ import (
 var migrateCmd = &cobra.Command{
 	Use:   "migrate",
 	Short: "Various migration helpers",
-	Run:   cli.MigrateSQLHandler,
+	Run:   cli.MigrateSQLHandler(NewDriver()),
 }
 
 func init() {

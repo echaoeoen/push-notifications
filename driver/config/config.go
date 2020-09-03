@@ -3,6 +3,7 @@ package config
 import (
 	"net/url"
 
+	"github.com/ory/x/logrusx"
 	"github.com/sirupsen/logrus"
 	jConfig "github.com/uber/jaeger-client-go/config"
 )
@@ -14,10 +15,11 @@ type Provider interface {
 	ListenHost() string
 	ListenPort() string
 	GetCookieSecrets() [][]byte
-	Logger() logrus.FieldLogger
+	Logger() *logrusx.Logger
 	Service() string
 	AppName() string
 	FCMServerKey() string
+	FetchNotificationSizePerReq() string
 	TracingJaegerConfig() *jConfig.Configuration
 }
 

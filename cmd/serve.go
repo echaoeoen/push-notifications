@@ -27,7 +27,7 @@ func init() {
 
 func serveCommand(cmd *cobra.Command, args []string) {
 	// var d driver.Driver = driver.NewDefaultDriver(logrusx.New(), false)
-	d := driver.NewDefaultDriver(logrus.New(), false)
+	var d driver.Driver = NewDriver()
 	closer, err := initJaeger(d.Configuration())
 	if err != nil {
 		d.Configuration().Logger().Println(logrus.Fields{"error": err}, "init_tracer_failed")

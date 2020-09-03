@@ -44,3 +44,39 @@ func DBConnectionError(message string) Error {
 		message,
 	)
 }
+
+func InsertError(message string) Error {
+	return NewNotificationError(
+		500,
+		"err_insert",
+		"Something error while inserting data",
+		message,
+	)
+}
+
+func UpdateError(message string) Error {
+	return NewNotificationError(
+		500,
+		"err_insert",
+		"Something error while updating data",
+		message,
+	)
+}
+
+func ParseError(message string) Error {
+	return NewNotificationError(
+		400,
+		"err_parse",
+		"Error while parsing data",
+		message,
+	)
+}
+
+func FCMConnError(message string) Error {
+	return NewNotificationError(
+		502,
+		"err_sending_fcm",
+		"Error while sending data to FCM Service",
+		message,
+	)
+}

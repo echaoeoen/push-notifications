@@ -14,7 +14,7 @@ var FetchNotification = `
 	FROM 
 		notifications
 	:where 
-	ORDER BY created DESC LIMIT ?, ?
+	ORDER BY id DESC LIMIT ?, ?
 `
 var InsertNotification = `
 	INSERT INTO 
@@ -26,9 +26,7 @@ var InsertNotification = `
 		message,
 		action,
 		param,
-		readed,
-		created,
-		updated
+		readed
 	)
 	VALUES(
 		?,

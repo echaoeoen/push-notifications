@@ -2,16 +2,19 @@ package notification
 
 import "time"
 
+type FCMToken struct {
+	FCMToken string `json:"fcm_token"`
+}
 type UserData struct {
 	Application string `json:"application"`
 	Username    string `json:"username"`
-	FCMToken    string `json:"fcm_token"`
+	FCMToken
 }
 
 type Content struct {
 	ID       int64     `json:"id"`
 	Title    string    `json:"title"`
-	SubTitle string    `json:"sub_title"`
+	SubTitle string    `json:"subtitle"`
 	Message  string    `json:"message"`
 	Action   string    `json:"action"`
 	Param    string    `json:"param"`
@@ -20,13 +23,13 @@ type Content struct {
 	Updated  time.Time `json:"updated"`
 }
 
-type Paginatation struct {
+type Pagination struct {
 	Page int64  `json:"page"`
 	Size int64  `json:"size"`
 	Next string `json:"next,omitempty"`
 }
 
 type PaginatedContent struct {
-	Paginatation
+	Pagination
 	Data []Content `json:"data"`
 }

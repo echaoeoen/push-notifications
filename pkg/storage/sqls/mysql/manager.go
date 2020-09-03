@@ -26,12 +26,10 @@ type MYSQLManager struct {
 }
 
 func NewManager(c config.Provider) *MYSQLManager {
-
 	db := &MYSQLManager{
 		c:     c,
 		stmts: sync.Map{},
 	}
-
 	return db
 }
 
@@ -64,6 +62,10 @@ func (m *MYSQLManager) Open() error {
 	m.db = db
 	m.c.Logger().Info("Connected to DB")
 	return nil
+}
+
+func (m *MYSQLManager) Config() config.Provider {
+	return m.c
 }
 
 func (m *MYSQLManager) Close() error {

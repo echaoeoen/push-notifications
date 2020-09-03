@@ -7,15 +7,15 @@ import (
 )
 
 func init() {
-	goose.AddMigration(Up20200828000000_1_init, Down20200828000000_1_init)
+	goose.AddMigration(Up20200828000000_notifications_init, Down20200828000000_notifications_init)
 }
 
-func Up20200828000000_1_init(tx *sql.Tx) error {
+func Up20200828000000_notifications_init(tx *sql.Tx) error {
 	_, err := tx.Exec(`
     CREATE TABLE notifications (
 				id BIGINT NOT NULL AUTO_INCREMENT,
-				username varchar NOT NULL,
-				application varchar NOT NULL,
+				username varchar(100) NOT NULL,
+				application varchar(100) NOT NULL,
 				title VARCHAR(100) NOT NULL,
 				subtitle VARCHAR(255) NOT NULL,
 				message TEXT NOT NULL,
@@ -33,7 +33,7 @@ func Up20200828000000_1_init(tx *sql.Tx) error {
 	return nil
 }
 
-func Down20200828000000_1_init(tx *sql.Tx) error {
+func Down20200828000000_notifications_init(tx *sql.Tx) error {
 	_, err := tx.Exec("DROP TABLE IF EXISTS notifications;")
 	if err != nil {
 		return err

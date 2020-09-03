@@ -1,6 +1,7 @@
 package sqls
 
 import (
+	"context"
 	"database/sql"
 	"strings"
 	"sync"
@@ -15,9 +16,15 @@ type SQLSManager interface {
 	DBService() *sql.DB
 	Open() error
 	Close() error
-	notification.StorageManager
 	Stmts() sync.Map
 	Prepare(query string) (*sql.Stmt, error)
+	Config() config.Provider
+
+	SetFCMToken(ctx context.Context, application, username string, token notification.FCMToken) error
+	GetFCMToken(ctx context.Context, application, username string) (*notification.UserData, error)
+	SaveNotification(ctx context.Context, application, username string, content notification.Content) error
+	FetchNotification(ctx context.Context, filter ...[3]string) ([]*notification.Content, error)
+	ReadNotification(ctx context.Context, application, username, notificationID string) error
 }
 
 type SQLs struct {
@@ -60,4 +67,25 @@ func getDSN(dsn string) string {
 }
 func (p *SQLs) Manager() SQLSManager {
 	return p.dbManager
+}
+
+func (p *SQLs) SetFCMToken(ctx context.Context, application, username string, token notification.FCMToken) error {
+	return p.dbManager.SetFCMToken(ctx, application, username, token)
+}
+func (p *SQLs) GetFCMToken(ctx context.Context, application, username string) (*notification.UserData, error) {
+	return p.dbManager.GetFCMToken(ctx, application, username)
+}
+func (p *SQLs) SaveNotification(ctx context.Context, application, username string, content notification.Content) error {
+	return p.dbManager.SaveNotification(ctx, application, username, content)
+}
+func (p *SQLs) FetchNotification(ctx context.Context, application, username string, filter ...[3]string) ([]*notification.Content, error) {
+	filter = append(filter, [][3]string{
+		{"application", "=", application},
+		{"username", "=", username},
+		{"size", "=", p.dbManager.Config().FetchNotificationSizePerReq()},
+	}...)
+	return p.dbManager.FetchNotification(ctx, filter...)
+}
+func (p *SQLs) ReadNotification(ctx context.Context, application, username, notificationID string) error {
+	return p.dbManager.ReadNotification(ctx, application, username, notificationID)
 }

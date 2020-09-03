@@ -5,13 +5,13 @@ import (
 	"github.com/oeoen/push-notifications/pkg/handler"
 	"github.com/oeoen/push-notifications/pkg/notification"
 	"github.com/oeoen/push-notifications/pkg/tracing"
-	"github.com/sirupsen/logrus"
+	"github.com/ory/x/logrusx"
 )
 
 type Registry interface {
 	Tracer() *tracing.Tracer
 	WithConfig(c config.Provider) Registry
-	WithLogger(l logrus.FieldLogger) Registry
+	WithLogger(l *logrusx.Logger) Registry
 	Init() error
 	notification.Registry
 	Handler() handler.Provider
