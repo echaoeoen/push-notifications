@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/oeoen/push-notifications/driver/config"
+	"github.com/oeoen/push-notifications/helper/errorp"
 	"github.com/oeoen/push-notifications/pkg/fcm"
 	"github.com/oeoen/push-notifications/pkg/notification"
 )
@@ -29,7 +30,7 @@ func (m *Manager) SendNotification(ctx context.Context, application, username st
 	}
 	Token, err := m.s.GetFCMToken(ctx, application, username)
 	if err != nil {
-		return err
+		return errorp.NewNotificationError(201, "warn_not_send_to_fcm", "Token for the username not setted", err.Error())
 	}
 	f := fcm.New(m.c)
 	if err = f.Send(Token.FCMToken.FCMToken, content); err != nil {

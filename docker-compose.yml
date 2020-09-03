@@ -1,0 +1,5 @@
+version: '3.4'
+services:
+  push-notif:
+    build: .
+    image: oeoen/push-notifications:1.0.0
