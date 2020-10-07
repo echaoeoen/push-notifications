@@ -91,6 +91,6 @@ func (v *ViperProvider) FCMServerKey() string {
 	return viperx.GetString(v.l, ViperFCMServerKey, "", "FCM_SERVER_KEY")
 }
 func (v *ViperProvider) FetchNotificationSizePerReq() string {
-	return viperx.GetString(v.l, ViperFCMServerKey, "10", "FETCH_NOTIFICATION_SIZE_PER_REQUEST")
+	return viperx.GetString(v.l, ViperFetchNotificationSizePerReq, "10", "FETCH_NOTIFICATION_SIZE_PER_REQUEST")
 
 }

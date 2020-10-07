@@ -8,6 +8,7 @@ type StorageManager interface {
 	SaveNotification(ctx context.Context, application, username string, content Content) error
 	FetchNotification(ctx context.Context, application, username string, filter ...[3]string) ([]*Content, error)
 	ReadNotification(ctx context.Context, application, username, notificationID string) error
+	UnreadCountNotification(ctx context.Context, application, username string) (int64, error)
 }
 
 type Manager interface {

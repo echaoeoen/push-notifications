@@ -25,6 +25,7 @@ type SQLSManager interface {
 	SaveNotification(ctx context.Context, application, username string, content notification.Content) error
 	FetchNotification(ctx context.Context, filter ...[3]string) ([]*notification.Content, error)
 	ReadNotification(ctx context.Context, application, username, notificationID string) error
+	UnreadCountNotification(ctx context.Context, application, username string) (int64, error)
 }
 
 type SQLs struct {
@@ -88,4 +89,7 @@ func (p *SQLs) FetchNotification(ctx context.Context, application, username stri
 }
 func (p *SQLs) ReadNotification(ctx context.Context, application, username, notificationID string) error {
 	return p.dbManager.ReadNotification(ctx, application, username, notificationID)
+}
+func (p *SQLs) UnreadCountNotification(ctx context.Context, application, username string) (int64, error) {
+	return p.dbManager.UnreadCountNotification(ctx, application, username)
 }

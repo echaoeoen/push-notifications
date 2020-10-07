@@ -56,7 +56,6 @@ func (m *MYSQLManager) SaveNotification(ctx context.Context, application, userna
 		content.Message,
 		content.Action,
 		content.Param,
-		content.Readed,
 	)
 	if err != nil {
 		return errorp.InsertError(err.Error())
@@ -66,6 +65,7 @@ func (m *MYSQLManager) SaveNotification(ctx context.Context, application, userna
 func (m *MYSQLManager) ReadNotification(ctx context.Context, application, username, notificationID string) error {
 	query := queries.ReadNotification
 	stmt, err := m.Prepare(query)
+
 	if err != nil {
 		return err
 	}
@@ -78,4 +78,16 @@ func (m *MYSQLManager) ReadNotification(ctx context.Context, application, userna
 		return errorp.UpdateError(err.Error())
 	}
 	return nil
+}
+func (m *MYSQLManager) UnreadCountNotification(ctx context.Context, application, username string) (int64, error) {
+	query := queries.UnreadCountNotification
+	r, err := m.DBService().Query(query, application, username)
+	var count int64 = 0
+
+	if err != nil {
+		return 0, errorp.FetchError(err.Error())
+	}
+	r.Next()
+	err = r.Scan(&count)
+	return count, nil
 }

@@ -81,4 +81,10 @@ func getRoutes(e *echo.Echo, m notification.Manager, c notification.Configuratio
 		controllers.NotificationParam["username"],
 		controllers.NotificationParam["id"],
 	), controllers.ReadNotification(m, c))
+
+	e.GET(fmt.Sprintf(
+		"/applications/:%s/users/:%s/notifications/unread",
+		controllers.NotificationParam["application"],
+		controllers.NotificationParam["username"],
+	), controllers.UnreadCountNotification(m, c))
 }

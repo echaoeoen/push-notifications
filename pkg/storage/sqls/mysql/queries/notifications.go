@@ -25,11 +25,9 @@ var InsertNotification = `
 		subtitle,
 		message,
 		action,
-		param,
-		readed
+		param
 	)
 	VALUES(
-		?,
 		?,
 		?,
 		?,
@@ -48,4 +46,14 @@ var ReadNotification = `
 		application = ? AND
 		username = ? AND
 		id = ?
+`
+
+var UnreadCountNotification = `
+	SELECT count(*)
+	FROM
+	notifications
+	WHERE
+	application = ? AND
+	username = ? AND
+	readed = 0
 `

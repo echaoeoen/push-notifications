@@ -18,7 +18,7 @@ type Content struct {
 	Message  string    `json:"message"`
 	Action   string    `json:"action"`
 	Param    string    `json:"param"`
-	Readed   string    `json:"readed"`
+	Readed   bool      `json:"readed"`
 	Created  time.Time `json:"created"`
 	Updated  time.Time `json:"updated"`
 }

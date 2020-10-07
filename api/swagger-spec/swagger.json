@@ -34,7 +34,7 @@
         ],
         "responses": {
           "200": {
-            "description": "List coupon",
+            "description": "",
             "$ref": "#/components/responses/Content"
           }
         }
@@ -65,7 +65,7 @@
         },
         "responses": {
           "200": {
-            "description": "List coupon",
+            "description": "",
             "$ref": "#/components/responses/Content"
           }
         }
@@ -95,7 +95,7 @@
         ],
         "responses": {
           "200": {
-            "description": "List coupon",
+            "description": "",
             "$ref": "#/components/responses/UserData"
           }
         }
@@ -126,7 +126,7 @@
         },
         "responses": {
           "200": {
-            "description": "List coupon",
+            "description": "",
             "$ref": "#/components/responses/Message"
           }
         }
@@ -165,7 +165,7 @@
         ],
         "responses": {
           "200": {
-            "description": "List coupon",
+            "description": "",
             "$ref": "#/components/responses/Content"
           }
         }
@@ -204,8 +204,77 @@
         ],
         "responses": {
           "200": {
-            "description": "List coupon",
+            "description": "",
             "$ref": "#/components/responses/Content"
+          }
+        }
+      }
+    },
+    "/applications/{application}/users/{username}/notifications/{id}/read": {
+      "put": {
+        "description": "update read status of notification",
+        "parameters": [
+          {
+            "name": "application",
+            "description": "Application name of detailed notification",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "username",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "notification ID",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "$ref": "#/components/responses/Content"
+          }
+        }
+      }
+    },
+    "/applications/{application}/users/{username}/notifications/unread": {
+      "get": {
+        "description": "get unread count of given application and username",
+        "parameters": [
+          {
+            "name": "application",
+            "description": "Application name of detailed notification",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "username",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "$ref": "#/components/responses/UnreadCount"
           }
         }
       }
@@ -271,6 +340,22 @@
                 "message": {
                   "type": "string",
                   "description": "Message of success action"
+                }
+              }
+            }
+          }
+        }
+      },
+      "UnreadCount": {
+        "description": "Unread count",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "count": {
+                  "type": "number",
+                  "description": "count of unread notifications"
                 }
               }
             }

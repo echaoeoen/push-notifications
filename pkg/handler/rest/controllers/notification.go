@@ -18,7 +18,7 @@ var NotificationParam = map[string]string{
 func GetNotificationNext(m notification.Manager, cn notification.Configuration) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		application, username, lastId := c.Param(NotificationParam["application"]), c.Param(NotificationParam["username"]), c.Param(NotificationParam["lastId"])
-		notifications, err := m.StorageManager().FetchNotification(c.Request().Context(), application, username, [3]string{"id", ">", lastId})
+		notifications, err := m.StorageManager().FetchNotification(c.Request().Context(), application, username, [3]string{"id", "<", lastId})
 		if err != nil {
 			cn.Logger().Error(err)
 			return responseError(c, err)
@@ -72,7 +72,19 @@ func ReadNotification(m notification.Manager, cn notification.Configuration) ech
 			return responseError(c, err)
 		}
 		return c.JSON(http.StatusAccepted, helper.Response{
-			Message: "Notification sended",
+			Message: "Notification readed",
 		})
+	}
+}
+
+func UnreadCountNotification(m notification.Manager, cn notification.Configuration) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		application, username := c.Param(NotificationParam["application"]), c.Param(NotificationParam["username"])
+		count, err := m.StorageManager().UnreadCountNotification(c.Request().Context(), application, username)
+		if err != nil {
+			cn.Logger().Error(err)
+			return responseError(c, err)
+		}
+		return c.JSON(http.StatusOK, map[string]int64{"count": count})
 	}
 }
